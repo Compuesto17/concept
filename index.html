@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DrySense – Concept Video</title>
+<style>
+:root{--bg:#0b1d2a;--fg:#f4f1ea;--muted:#9bb3c2;--accent:#ffb347;--teal:#3ed1c0;--rain:#6aa7ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:#050e15;color:var(--fg);font-family:"Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif}
+body{overflow:hidden}
+#app{--h:100dvh;--ch:44px;--pad:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100vw;height:100dvh;padding:calc(var(--pad)/2) 8px}
+#stage{position:relative;width:min(100%,calc((var(--h) - var(--ch) - var(--pad) - 8px)*16/9));container-type:inline-size;aspect-ratio:16/9;background:radial-gradient(ellipse at 50% 0%,#17405a 0%,var(--bg) 70%);border-radius:14px;overflow:hidden}
+.scene{position:absolute;inset:0 0 14% 0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3% 4% 0;opacity:0;visibility:hidden;transition:opacity .6s}
+.scene.on{opacity:1;visibility:visible}
+h1{font-size:clamp(28px,6cqw,64px);margin:0;letter-spacing:-.02em}
+h2{font-size:clamp(18px,3.4cqw,36px);margin:1% 0 0}
+p{font-size:clamp(12px,1.9cqw,21px);color:var(--muted);margin:1% 0 0}
+.tag{color:var(--accent);font-size:clamp(10px,1.5cqw,15px);letter-spacing:.25em;text-transform:uppercase;margin-bottom:1%}
+svg{width:min(62%,480px);height:auto;overflow:visible}
+.on .rise{animation:rise .9s both}
+.on .d1{animation-delay:.5s}.on .d2{animation-delay:1.3s}.on .d3{animation-delay:2.2s}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.on .sun,.on .fan{animation:spin 8s linear infinite;transform-origin:center;transform-box:fill-box}
+.on .fan{animation-duration:.6s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.on .drop{animation:fall 1s linear infinite}
+.on .drop:nth-child(2n){animation-delay:.35s}.on .drop:nth-child(3n){animation-delay:.7s}
+@keyframes fall{from{transform:translateY(-30px);opacity:0}30%{opacity:1}to{transform:translateY(120px);opacity:0}}
+.on .cloud{animation:cloud 2.5s .3s both}
+@keyframes cloud{from{transform:translateX(-200px);opacity:0}to{transform:none;opacity:1}}
+.on .pulse{animation:pulse 1.4s ease-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes pulse{from{transform:scale(.6);opacity:.9}to{transform:scale(2.6);opacity:0}}
+.on .canopy{animation:cover 2s 2.5s both ease-in-out}
+@keyframes cover{from{transform:translateX(-340px)}to{transform:none}}
+.gauges,.flow,.cards{display:flex;gap:2.5%;margin-top:2.5%;justify-content:center;align-items:stretch;width:100%}
+.g,.box,.card{background:#ffffff12;border:1px solid #ffffff22;border-radius:12px;padding:2% 3%;min-width:18%}
+.g b{display:block;font-size:clamp(18px,3.4cqw,36px);color:var(--teal)}
+.g span,.box span{font-size:clamp(9px,1.3cqw,13px);color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+.box{flex:1;max-width:28%}.box b{display:block;font-size:clamp(13px,2.2cqw,24px);margin:4px 0}
+.box small{font-size:clamp(10px,1.4cqw,14px);color:var(--muted)}
+.arr{align-self:center;font-size:clamp(18px,3cqw,32px);color:var(--accent)}
+.card{flex:1;max-width:30%}.card b{display:block;font-size:clamp(14px,2.4cqw,26px);color:var(--accent);margin-bottom:6px}
+.card small{font-size:clamp(10px,1.5cqw,15px);color:var(--muted)}
+.bar{height:9px;border-radius:6px;background:#ffffff18;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--teal);width:0}
+.on .bar i{animation:fill 2.5s 1s both}
+@keyframes fill{to{width:var(--w)}}
+.phone{width:min(32%,250px);background:#0f2a3b;border:2px solid #ffffff30;border-radius:22px;padding:3.5%;text-align:left}
+.phone .row{font-size:clamp(10px,1.5cqw,15px);margin:7px 0}
+.alert{background:var(--accent);color:#2b1a00;border-radius:10px;padding:8px 10px;font-weight:600;font-size:clamp(10px,1.5cqw,15px);margin-top:10px;opacity:0}
+.on .alert{animation:rise .8s 3s both}
+#cap{position:absolute;left:5%;right:5%;bottom:3%;text-align:center;font-size:clamp(12px,2cqw,21px);line-height:1.35;background:#000000a0;padding:8px 14px;border-radius:10px;min-height:2.2em;transition:opacity .4s}
+#cap:empty{opacity:0}
+#start{position:absolute;inset:0;z-index:5;background:#050e15e6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px}
+#start.off{display:none}
+#start button{font-size:clamp(14px,2.2cqw,20px);padding:12px 22px;background:var(--accent);color:#2b1a00;border:0;font-weight:700}
+#start button.alt{background:transparent;color:var(--muted);border:1px solid #ffffff30;font-weight:400;font-size:14px;padding:8px 14px}
+#chrome{display:flex;gap:8px;align-items:center;width:min(100%,calc((var(--h) - var(--ch) - var(--pad) - 8px)*16/9));height:var(--ch)}
+button{background:#ffffff18;color:var(--fg);border:1px solid #ffffff30;border-radius:8px;padding:7px 10px;font-size:13px;cursor:pointer;white-space:nowrap}
+#prog{flex:1;height:6px;background:#ffffff1c;border-radius:4px;overflow:hidden}
+#prog i{display:block;height:100%;width:0;background:var(--accent)}
+body.rec #app{--ch:0px;--pad:0px;gap:0;padding:0}
+body.rec #chrome{display:none}
+body.rec #stage{border-radius:0}
+/* phone held upright: turn the video sideways so it fills the screen in landscape */
+@media (orientation:portrait) and (max-width:700px){
+  #app{position:fixed;top:0;left:100vw;width:100dvh;height:100vw;--h:100vw;transform-origin:0 0;transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="stage">
+
+<div class="scene" id="s0">
+  <div class="tag rise">Concept video</div>
+  <svg viewBox="0 0 200 90" class="rise d1"><g class="sun"><circle cx="40" cy="45" r="16" fill="#ffb347"/><g stroke="#ffb347" stroke-width="3" stroke-linecap="round"><path d="M40 18v-8M40 80v-8M13 45H5M75 45h-8M21 26l-6-6M65 70l-6-6M21 64l-6 6M65 20l-6 6"/></g></g><path d="M105 45c14-20 40-20 56 0-16 20-42 20-56 0z" fill="#3ed1c0"/><path d="M161 45l22-14v28z" fill="#3ed1c0"/><circle cx="118" cy="41" r="3" fill="#0b1d2a"/></svg>
+  <h1 class="rise d1">DrySense</h1>
+  <p class="rise d2">Smart fish drying, powered by sensors</p>
+</div>
+
+<div class="scene" id="s1">
+  <div class="tag">The problem</div>
+  <svg viewBox="0 0 300 150">
+    <g class="cloud"><ellipse cx="150" cy="30" rx="70" ry="22" fill="#5b6f80"/><ellipse cx="110" cy="38" rx="40" ry="18" fill="#6c8294"/><ellipse cx="190" cy="38" rx="40" ry="18" fill="#6c8294"/></g>
+    <g stroke="var(--rain)" stroke-width="3" stroke-linecap="round"><path class="drop" d="M110 60v10"/><path class="drop" d="M135 60v10"/><path class="drop" d="M160 60v10"/><path class="drop" d="M185 60v10"/><path class="drop" d="M210 60v10"/></g>
+    <path d="M60 135h180M80 135V105M220 135V105" stroke="#9bb3c2" stroke-width="3"/>
+    <g fill="#c9a36a"><ellipse cx="105" cy="105" rx="16" ry="6"/><ellipse cx="150" cy="105" rx="16" ry="6"/><ellipse cx="195" cy="105" rx="16" ry="6"/></g>
+  </svg>
+  <h2 class="rise d1">Weather is a gamble</h2>
+  <p class="rise d2">Mold · Spoilage · Lost harvest</p>
+</div>
+
+<div class="scene" id="s2">
+  <div class="tag">1 · Sense</div>
+  <svg viewBox="0 0 300 100" style="width:min(52%,420px)">
+    <path d="M40 92h220M60 92V66M240 92V66" stroke="#9bb3c2" stroke-width="3"/>
+    <g fill="#c9a36a"><ellipse cx="95" cy="66" rx="16" ry="6"/><ellipse cx="150" cy="66" rx="16" ry="6"/><ellipse cx="205" cy="66" rx="16" ry="6"/></g>
+    <circle cx="150" cy="22" r="8" fill="var(--teal)"/><circle class="pulse" cx="150" cy="22" r="8" fill="none" stroke="var(--teal)" stroke-width="2"/>
+    <path d="M150 30v28" stroke="var(--teal)" stroke-width="2" stroke-dasharray="3 3"/>
+  </svg>
+  <div class="gauges">
+    <div class="g rise d1"><span>Humidity</span><b>78%</b><div class="bar"><i style="--w:78%"></i></div></div>
+    <div class="g rise d2"><span>Temperature</span><b>31°C</b><div class="bar"><i style="--w:62%"></i></div></div>
+    <div class="g rise d3"><span>Fish moisture</span><b>42%</b><div class="bar"><i style="--w:42%"></i></div></div>
+  </div>
+</div>
+
+<div class="scene" id="s3">
+  <div class="tag">2 · Decide</div>
+  <h2 class="rise">How it works</h2>
+  <div class="flow">
+    <div class="box rise d1"><span>Input</span><b>Sensors</b><small>Humidity, heat, moisture, rain</small></div>
+    <div class="arr rise d1">→</div>
+    <div class="box rise d2"><span>Brain</span><b>Controller</b><small>Compares readings to safe drying limits</small></div>
+    <div class="arr rise d2">→</div>
+    <div class="box rise d3"><span>Output</span><b>Actions</b><small>Canopy, fan and phone alerts</small></div>
+  </div>
+</div>
+
+<div class="scene" id="s4">
+  <div class="tag">3 · Act</div>
+  <svg viewBox="0 0 300 150">
+    <g stroke="var(--rain)" stroke-width="3" stroke-linecap="round"><path class="drop" d="M70 10v10"/><path class="drop" d="M110 10v10"/><path class="drop" d="M150 10v10"/><path class="drop" d="M190 10v10"/><path class="drop" d="M230 10v10"/></g>
+    <path d="M60 135h180M80 135V95M220 135V95" stroke="#9bb3c2" stroke-width="3"/>
+    <g fill="#c9a36a"><ellipse cx="105" cy="95" rx="16" ry="6"/><ellipse cx="150" cy="95" rx="16" ry="6"/><ellipse cx="195" cy="95" rx="16" ry="6"/></g>
+    <g class="canopy"><path d="M45 75h210l-20-22H65z" fill="var(--teal)"/></g>
+    <g class="fan"><circle cx="265" cy="115" r="3" fill="#f4f1ea"/><path d="M265 115l-8-14a16 16 0 0 1 16 0zM265 115l14 8a16 16 0 0 1-8 14zM265 115l-6 16a16 16 0 0 1-14-8z" fill="#f4f1ea" opacity=".85"/></g>
+  </svg>
+  <h2 class="rise d1">Rain detected: canopy closes</h2>
+  <p class="rise d2">The fan keeps air moving so drying continues</p>
+</div>
+
+<div class="scene" id="s5">
+  <div class="tag">4 · Know</div>
+  <div class="phone rise">
+    <div class="row"><b>Batch A · Rack 2</b></div>
+    <div class="row">Moisture<div class="bar"><i style="--w:55%"></i></div></div>
+    <div class="row">Humidity<div class="bar"><i style="--w:70%"></i></div></div>
+    <div class="alert">Ready in about 3 hours</div>
+  </div>
+  <h2 class="rise d2">Live status in your pocket</h2>
+</div>
+
+<div class="scene" id="s6">
+  <div class="tag">Why it matters</div>
+  <div class="cards">
+    <div class="card rise d1"><b>Less spoilage</b><small>Protected from sudden rain</small></div>
+    <div class="card rise d2"><b>Even drying</b><small>Airflow and data guide each batch</small></div>
+    <div class="card rise d3"><b>Less hassle</b><small>No rushing to cover the rack</small></div>
+  </div>
+</div>
+
+<div class="scene" id="s7">
+  <h1 class="rise">Dry smarter.</h1>
+  <p class="rise d1" style="color:var(--accent)">DrySense · Smart Fish Drying Prototype</p>
+</div>
+
+<div id="cap"></div>
+<div id="start">
+  <h1>DrySense</h1>
+  <p>Concept video with music and narration</p>
+  <button id="go">▶ Play with sound</button>
+  <button id="mute" class="alt">Play silently (captions only)</button>
+</div>
+</div>
+
+<div id="chrome">
+  <button id="pp">Pause</button>
+  <button id="rp">Replay</button>
+  <button id="snd">Sound: on</button>
+  <button id="rec">Save as video</button>
+  <div id="prog"><i></i></div>
+</div>
+</div>
+
+<script>
+(function(){
+var scenes=[].slice.call(document.querySelectorAll('.scene')),
+dur=[5000,7500,7500,7000,8500,7000,7000,5500],
+say=["Meet DrySense, a smart drying rack that protects your fish from the weather.",
+"Drying fish outdoors is a gamble. One sudden rain can bring mold, spoilage, and a lost harvest.",
+"DrySense sensors constantly measure humidity, temperature, and how much moisture is left in the fish.",
+"A small controller reads those numbers and decides what the rack needs, right now.",
+"When rain is detected, the canopy closes automatically, and a fan keeps air moving, so the fish keep drying safely.",
+"You see everything on your phone, and get an alert when the batch is ready.",
+"The result: less spoilage, more even drying, and far less running back and forth.",
+"DrySense. Dry smarter."],
+total=dur.reduce(function(a,b){return a+b},0),
+bar=document.querySelector('#prog i'),pp=document.getElementById('pp'),cap=document.getElementById('cap'),snd=document.getElementById('snd'),
+t=0,last=null,paused=true,cur=-1,sound=false,ctx,master,noiseBuf,timer,nextT=0,ci=0;
+
+/* ---------- audio ---------- */
+var chords=[[220,261.63,329.63],[174.61,220,261.63],[261.63,329.63,392],[196,246.94,293.66]];
+function initAudio(){
+  try{
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    master=ctx.createGain();master.gain.value=0.5;master.connect(ctx.destination);
+    noiseBuf=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);
+    var d=noiseBuf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+  }catch(e){ctx=null}
+}
+function tone(f,t0,len,type,vol,att){
+  var o=ctx.createOscillator(),g=ctx.createGain();
+  o.type=type;o.frequency.value=f;
+  g.gain.setValueAtTime(0.0001,t0);
+  g.gain.linearRampToValueAtTime(vol,t0+att);
+  g.gain.exponentialRampToValueAtTime(0.0001,t0+len);
+  o.connect(g);g.connect(master);o.start(t0);o.stop(t0+len+0.05);
+}
+function bar4(t0){
+  var c=chords[ci%4];ci++;
+  c.forEach(function(f){tone(f,t0,5.2,'triangle',0.05,1.2)});
+  tone(c[0]/2,t0,4.6,'sine',0.09,0.3);
+  for(var k=0;k<16;k++){tone(c[[0,1,2,1][k%4]]*2,t0+k*0.3,0.9,'sine',0.035,0.01)}
+}
+function sched(){
+  if(!ctx||paused||!sound)return;
+  while(nextT<ctx.currentTime+1.2){bar4(nextT);nextT+=4.8}
+}
+function noise(t0,len,type,f0,f1,vol){
+  var s=ctx.createBufferSource(),fl=ctx.createBiquadFilter(),g=ctx.createGain();
+  s.buffer=noiseBuf;s.loop=true;fl.type=type;
+  fl.frequency.setValueAtTime(f0,t0);fl.frequency.exponentialRampToValueAtTime(f1,t0+len);
+  g.gain.setValueAtTime(0.0001,t0);g.gain.linearRampToValueAtTime(vol,t0+0.4);g.gain.linearRampToValueAtTime(0.0001,t0+len);
+  s.connect(fl);fl.connect(g);g.connect(master);s.start(t0);s.stop(t0+len+0.1);
+}
+function sfx(i){
+  if(!ctx||!sound)return;var n=ctx.currentTime;
+  if(i===1)noise(n+0.5,6,'highpass',3000,3000,0.07);
+  if(i===4){noise(n+0.2,3,'highpass',3000,3000,0.05);noise(n+2.5,2,'bandpass',300,2500,0.12)}
+  if(i===5){tone(880,n+3,1.2,'sine',0.12,0.01);tone(1318.5,n+3.15,1.2,'sine',0.1,0.01)}
+}
+function speak(i){
+  if(!sound||!window.speechSynthesis)return;
+  speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(say[i]);u.rate=0.92;u.pitch=1;u.lang='en-US';
+  var v=speechSynthesis.getVoices().filter(function(x){return /^en/i.test(x.lang)})[0];if(v)u.voice=v;
+  setTimeout(function(){speechSynthesis.speak(u)},500);
+}
+
+/* ---------- timeline ---------- */
+function show(i){
+  if(i===cur)return;
+  scenes.forEach(function(s){s.classList.remove('on')});
+  void document.body.offsetWidth;
+  scenes[i].classList.add('on');cur=i;
+  cap.textContent=say[i];speak(i);sfx(i);
+}
+function idx(ms){var a=0;for(var i=0;i<dur.length;i++){a+=dur[i];if(ms<a)return i}return dur.length-1}
+function tick(now){
+  if(last===null)last=now;
+  if(!paused){t+=now-last;if(t>=total){t=total-1;setPaused(true);pp.textContent='Play';if(recorder&&recorder.state==='recording')setTimeout(stopRec,1200)}}
+  last=now;show(idx(t));bar.style.width=(t/total*100)+'%';
+  requestAnimationFrame(tick);
+}
+function setPaused(p){
+  paused=p;pp.textContent=p?'Play':'Pause';
+  if(ctx){p?ctx.suspend():ctx.resume().then(function(){nextT=Math.max(nextT,ctx.currentTime+0.1)})}
+  if(window.speechSynthesis){p?speechSynthesis.pause():speechSynthesis.resume()}
+}
+function goLandscape(){
+  try{
+    if(!matchMedia('(pointer:coarse)').matches)return;
+    var el=document.documentElement;
+    if(el.requestFullscreen)el.requestFullscreen().then(function(){return screen.orientation.lock('landscape')}).catch(function(){});
+  }catch(e){}
+}
+function begin(withSound){
+  document.getElementById('start').classList.add('off');goLandscape();
+  sound=withSound;snd.textContent='Sound: '+(sound?'on':'off');
+  if(sound){initAudio();if(!ctx)sound=false;else{nextT=ctx.currentTime+0.1;timer=setInterval(sched,250)}}
+  t=0;cur=-1;setPaused(false);
+}
+document.getElementById('go').onclick=function(){begin(true)};
+document.getElementById('mute').onclick=function(){begin(false)};
+pp.onclick=function(){
+  if(t>=total-1){t=0;cur=-1;setPaused(false);return}
+  setPaused(!paused);
+};
+document.getElementById('rp').onclick=function(){
+  if(window.speechSynthesis)speechSynthesis.cancel();
+  t=0;cur=-1;ci=0;if(ctx)nextT=ctx.currentTime+0.1;setPaused(false);
+};
+snd.onclick=function(){
+  if(!ctx&&!sound){initAudio();if(ctx){timer=setInterval(sched,250)}}
+  if(!ctx)return;
+  sound=!sound;snd.textContent='Sound: '+(sound?'on':'off');
+  if(!sound&&window.speechSynthesis)speechSynthesis.cancel();
+  if(sound){nextT=ctx.currentTime+0.1;cur=-1}
+};
+/* ---------- save as video ---------- */
+var recorder=null,chunks=[],rstream=null;
+function pickType(){
+  var c=['video/mp4;codecs=avc1,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];
+  for(var i=0;i<c.length;i++){if(window.MediaRecorder&&MediaRecorder.isTypeSupported(c[i]))return c[i]}
+  return '';
+}
+function stopRec(){if(recorder&&recorder.state!=='inactive')recorder.stop()}
+document.getElementById('rec').onclick=async function(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia||!window.MediaRecorder){
+    alert('This browser cannot record the screen. Use Chrome or Edge on a computer, or your phone\u2019s built-in screen recorder.');return;
+  }
+  try{
+    rstream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:true,preferCurrentTab:true,selfBrowserSurface:'include'});
+  }catch(e){return}
+  var type=pickType(),ext=/mp4/.test(type)?'mp4':'webm';
+  chunks=[];
+  recorder=new MediaRecorder(rstream,type?{mimeType:type,videoBitsPerSecond:5000000}:{});
+  recorder.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data)};
+  recorder.onstop=function(){
+    rstream.getTracks().forEach(function(tr){tr.stop()});
+    document.body.classList.remove('rec');
+    var blob=new Blob(chunks,{type:type||'video/webm'}),a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);a.download='drysense-concept.'+ext;
+    document.body.appendChild(a);a.click();a.remove();
+    recorder=null;
+  };
+  rstream.getVideoTracks()[0].onended=stopRec;
+  document.getElementById('start').classList.add('off');
+  if(!ctx){initAudio();if(ctx)timer=setInterval(sched,250)}
+  sound=!!ctx;snd.textContent='Sound: '+(sound?'on':'off');
+  document.body.classList.add('rec');
+  recorder.start(500);
+  if(window.speechSynthesis)speechSynthesis.cancel();
+  t=0;cur=-1;ci=0;if(ctx)nextT=ctx.currentTime+0.1;
+  setTimeout(function(){setPaused(false)},800);
+};
+
+if(window.speechSynthesis)speechSynthesis.getVoices();
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
